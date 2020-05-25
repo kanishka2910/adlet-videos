@@ -1,0 +1,13 @@
+{
+  "name": "adlet",
+  "short_name": "adlet",
+  "start_url": "/index.html",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fff",
+  "theme_color": "#3f51b5",
+  "description": "adlet.",
+  "dir": "ltr",
+  "lang": "en-US"
+}
