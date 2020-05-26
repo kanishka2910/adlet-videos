@@ -53,7 +53,7 @@ var STATIC_FILES = [
     
   self.addEventListener('fetch', function (event) {
 
-    var url = 'http://127.0.0.1:8000/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b/ads';
+    var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b/ads';
     if (event.request.url.indexOf(url) > -1) {
       event.respondWith(fetch(event.request)
         .then(function (res) {
@@ -86,7 +86,7 @@ var STATIC_FILES = [
                 .then(function (res) {
                   return caches.open(CACHE_DYNAMIC_NAME)
                     .then(function (cache) {
-                      // trimCache(CACHE_DYNAMIC_NAME, 3);
+                      //trimCache(CACHE_DYNAMIC_NAME, 5);
                       cache.put(event.request.url, res.clone());
                       return res;
                     })
