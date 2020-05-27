@@ -53,7 +53,7 @@ var STATIC_FILES = [
     
   self.addEventListener('fetch', function (event) {
 
-    var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b/ads';
+    var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b';
     if (event.request.url.indexOf(url) > -1) {
       event.respondWith(fetch(event.request)
         .then(function (res) {
@@ -63,8 +63,8 @@ var STATIC_FILES = [
               return clonedRes.json();
             })
             .then(function (datas) {
-              for(var key in datas.data.data){
-                writeData('videos', datas.data.data[key])
+              for(var key in datas.data.data.ads){
+                writeData('videos', datas.data.data.ads[key])
               }
                 
             });
