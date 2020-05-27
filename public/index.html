@@ -56,7 +56,7 @@
 <script type="text/javascript">
 
 		var video_player = document.getElementById("video_player");
-			var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b/ads';
+			var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b';
 			var networkDataReceived = false;
 			var dataArray = [];
 			video = video_player.getElementsByTagName("video")[0],
@@ -85,8 +85,8 @@
 		  .then(function(datas) {
 			networkDataReceived = true;
 			console.log('From web', datas);
-			for(var key in datas.data.data){
-				dataArray.push(datas.data.data[key]);
+			for(var key in datas.data.data.ads){
+				dataArray.push(datas.data.data.ads[key]);
 			}
 			  
 			playVid(dataArray[currentVid]);
