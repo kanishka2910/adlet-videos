@@ -13,6 +13,8 @@ var STATIC_FILES = [
   '/js/fetch.js',
   ];
 
+var kioskid='';
+
   self.addEventListener('install', function (event) {
     console.log('[Service Worker] Installing Service Worker ...', event);
     event.waitUntil(
@@ -50,10 +52,14 @@ var STATIC_FILES = [
     }
     return array.indexOf(cachePath) > -1;
   }
-    
+   
+  self.addEventListener('message', function(event) {
+    kioskid = event.data.message;
+});
+
   self.addEventListener('fetch', function (event) {
 
-    var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b';
+    var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/'+kioskid;
     if (event.request.url.indexOf(url) > -1) {
       event.respondWith(fetch(event.request)
         .then(function (res) {
