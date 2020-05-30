@@ -57,7 +57,6 @@
 
 		var video_player = document.getElementById("video_player");
 			var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b';
-			var networkDataReceived = false;
 			var dataArray = [];
 			video = video_player.getElementsByTagName("video")[0],
 			source = video.getElementsByTagName("source"),
@@ -78,32 +77,33 @@
 				}		
 				playVid(dataArray[currentVid]);
 			})
+
+			
+				if ('indexedDB' in window) {
+		   readAllData('videos')
+			 .then(function(data) {
+			    console.log('From cache', data);
+				 for(var i=0;i<3;i++){
+					 dataArray[i]=data[i];
+				 }
+				 playVid(data[currentVid]);
+			   
+			 });
+		 }
+		
 		fetch(url)
 		  .then(function(res) {
 			return res.json();
 		  })
 		  .then(function(datas) {
-			networkDataReceived = true;
 			console.log('From web', datas);
+			dataArray=[];
 			for(var key in datas.data.data.ads){
 				dataArray.push(datas.data.data.ads[key]);
 			}
 			  
 			playVid(dataArray[currentVid]);
 		  });
-		
-		   if ('indexedDB' in window) {
-		   readAllData('videos')
-			 .then(function(data) {
-			   if (!networkDataReceived) {
-				 console.log('From cache', data);
-				 for(var i=0;i<3;i++){
-					 dataArray[i]=data[i];
-				 }
-				 playVid(data[currentVid]);
-			   }
-			 });
-		 }
 		
 		 video.addEventListener('mouseenter', 
 				function() {
