@@ -54,9 +54,8 @@
 	<script src="/js/app.js"></script>	
 
 <script type="text/javascript">
-
 		var video_player = document.getElementById("video_player");
-			var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/5e3d0a07fb38ed1578b24f6b';
+			var url = 'https://adlet-goa.herokuapp.com/api/v1/kiosks/'+localStorage.kioskid;
 			var dataArray = [];
 			video = video_player.getElementsByTagName("video")[0],
 			source = video.getElementsByTagName("source"),
@@ -70,7 +69,7 @@
 					video.play();
 				}
 					video.addEventListener('ended', function () {
-				if ((currentVid + 1) >= 3) {
+				if ((currentVid + 1) >= dataArray.length) {
 					currentVid = 0;
 				} else {
 					currentVid = currentVid+1; 
@@ -78,18 +77,17 @@
 				playVid(dataArray[currentVid]);
 			})
 
-			
-				if ('indexedDB' in window) {
-		   readAllData('videos')
-			 .then(function(data) {
-			    console.log('From cache', data);
-				 for(var i=0;i<3;i++){
-					 dataArray[i]=data[i];
-				 }
+		 		if ('indexedDB' in window) {
+			    readAllData('videos')
+		 	   .then(function(data) {
+		 	    console.log('From cache', data);
+		 		 for(var i=0;i<data.length;i++){
+		 			 dataArray[i]=data[i];
+		 		 }
 				 playVid(data[currentVid]);
 			   
-			 });
-		 }
+		 	 });
+		  }
 		
 		fetch(url)
 		  .then(function(res) {
@@ -101,9 +99,14 @@
 			for(var key in datas.data.data.ads){
 				dataArray.push(datas.data.data.ads[key]);
 			}
-			  
 			playVid(dataArray[currentVid]);
 		  });
+
+		  navigator.serviceWorker.controller.postMessage({
+             "command": "kioskid",
+             "message": localStorage.kioskid
+ 		});
+		
 		
 		 video.addEventListener('mouseenter', 
 				function() {
